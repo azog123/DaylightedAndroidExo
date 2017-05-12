@@ -53,14 +53,6 @@ public class AppSingleton {
         if (mRequestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone passes one in.
-            /*
-            HttpClient httpclient = new DefaultHttpClient();
-
-            CookieStore cookieStore = new BasicCookieStore();
-            httpclient.setCookieStore( cookieStore );
-
-            HttpStack httpStack = new HttpClientStack( httpclient );
-            */
             CookieManager cookieManager = new CookieManager();
             CookieHandler.setDefault(cookieManager);
 
