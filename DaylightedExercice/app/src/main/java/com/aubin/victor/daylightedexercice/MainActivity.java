@@ -3,11 +3,14 @@ package com.aubin.victor.daylightedexercice;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,15 +32,10 @@ public class MainActivity extends ListActivity {
     final String cookieTag = "getCookie";
     final String imageTag = "getImage";
 
-    //les views utilisées
-    TextView mTxtDisplay;
-    ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-        mTxtDisplay = (TextView) findViewById(R.id.txtDisplay);
         getCookie();
     }
 
@@ -51,21 +49,35 @@ public class MainActivity extends ListActivity {
     }
 
     public void diplayImages(JSONArray images){
-        String[] values = new String[images.length()];
+        String[] artistNames = new String[images.length()];
         String[] imageUrl = new String[images.length()];
+        String[] pictureNames = new String[images.length()];
         for (int i = 0; i<images.length(); i++){
             try {
-                values[i] = images.getJSONObject(i).getString("author_full_name");
+                artistNames[i] = images.getJSONObject(i).getString("author_full_name");
                 imageUrl[i] = images.getJSONObject(i).getString("thumbnail");
-                Log.d(i+" : " + values[i],imageUrl[i]);
+                pictureNames[i] = images.getJSONObject(i).getString("name");
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.d("BUG","");
             }
         }
 
-        MonAdaptateurDeListe adaptateur = new MonAdaptateurDeListe(this, values, imageUrl);
+        MonAdaptateurDeListe adaptateur = new MonAdaptateurDeListe(this, pictureNames, artistNames, imageUrl);
         setListAdapter(adaptateur);
+    }
+
+
+    public void heartClick(View heartView){
+        if (heartView.getTag().equals("empty")){
+            ImageButton heartButton = (ImageButton) heartView;
+            heartButton.setImageResource(R.drawable.heart_selected);
+            heartButton.setTag("full");
+        }
+        else {
+            ImageButton heartButton = (ImageButton) heartView;
+            heartButton.setImageResource(R.drawable.heart_not_selected);
+            heartButton.setTag("empty");
+        }
     }
 
 
@@ -87,7 +99,7 @@ public class MainActivity extends ListActivity {
                 dialogMessage = "Connecting...";
                 break;
             case imageTag:
-                dialogMessage = "Downloading images ...";
+                dialogMessage = "Downloading pictures ...";
                 break;
             default:
                 dialogMessage = "Loading. Please wait...";
@@ -130,12 +142,12 @@ public class MainActivity extends ListActivity {
                         getImage();
                     }
                     catch (Exception e){
-                        mTxtDisplay.setText(e.getMessage());
+                        //mTxtDisplay.setText(e.getMessage());
                     }
                 }
                 else {
                     VolleyLog.d("TAG", "Error: " + error.getMessage());
-                    mTxtDisplay.setText(error.getMessage());
+                    //mTxtDisplay.setText(error.getMessage());
                 }
             }
         });
@@ -143,5 +155,6 @@ public class MainActivity extends ListActivity {
         AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
 
     }
+
 
 }
