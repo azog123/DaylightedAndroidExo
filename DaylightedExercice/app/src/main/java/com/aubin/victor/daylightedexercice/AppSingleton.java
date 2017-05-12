@@ -9,6 +9,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+
 /**
  * Created by androidtutorialpoint on 5/11/16.
  */
@@ -50,6 +53,17 @@ public class AppSingleton {
         if (mRequestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone passes one in.
+            /*
+            HttpClient httpclient = new DefaultHttpClient();
+
+            CookieStore cookieStore = new BasicCookieStore();
+            httpclient.setCookieStore( cookieStore );
+
+            HttpStack httpStack = new HttpClientStack( httpclient );
+            */
+            CookieManager cookieManager = new CookieManager();
+            CookieHandler.setDefault(cookieManager);
+
             mRequestQueue = Volley.newRequestQueue(mContext.getApplicationContext());
         }
         return mRequestQueue;
