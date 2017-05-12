@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mTxtDisplay = (TextView) findViewById(R.id.txtDisplay);
-        volleyJsonArrayRequest("https://www.daylighted.com/corporate/collection/add/1d85fb9e2f5511e78b047054d219b30e?format=json&f=71&p=1");
+        volleyJsonArrayRequest("https://www.daylighted.com/corporate/collection/add/1d85fb9e2f5511e78b047054d219b30e?format=json&f=71&p=1", "getCookie");
     }
 
-    public void volleyJsonArrayRequest(String url){
+    public void volleyJsonArrayRequest(String url, String tag){
 
-        String  REQUEST_TAG = "com.androidtutorialpoint.volleyJsonArrayRequest";
+        String  REQUEST_TAG = tag;
 
         JsonArrayRequest jsonArrayReq = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
