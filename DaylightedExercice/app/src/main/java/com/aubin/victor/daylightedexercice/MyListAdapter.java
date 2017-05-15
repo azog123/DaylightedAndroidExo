@@ -28,6 +28,7 @@ public class MyListAdapter extends ArrayAdapter<String> {
     private final String[] imageUrl;
     private HashMap<String,View> viewMap;
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -47,10 +48,16 @@ public class MyListAdapter extends ArrayAdapter<String> {
             TextView textViewName = (TextView) rowView.findViewById(R.id.label2);
             ImageButton heartButton = (ImageButton) rowView.findViewById(R.id.imageButton);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+            TextView likeCounter = (TextView) rowView.findViewById(R.id.likeCounter);
 
             textViewName.setText("Title: " + pictureNames[position]);
             textViewArtist.setText("Artist: " + artistNames[position]);
-            heartButton.setImageResource(R.drawable.heart_not_selected);
+            heartButton.setImageResource(R.drawable.heart_selected);
+            heartButton.setTag(ids[position]);
+            YourPreference yourPreference = YourPreference.getInstance(this.context);
+            int likecount = yourPreference.getData(ids[position]);
+            likeCounter.setText(String.valueOf(likecount));
+
 
             Picasso.with(context).load(imageUrl[position]).into(imageView);
 

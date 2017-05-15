@@ -2,11 +2,14 @@ package com.aubin.victor.daylightedexercice;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -28,8 +31,7 @@ public class MainActivity extends ListActivity {
     final String imageTag = "getImage";
 
     //le player
-    MediaPlayer mPlayer;
-
+    private MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class MainActivity extends ListActivity {
         for (int i = 0; i<images.length(); i++){
             try {
                 artistNames[i] = images.getJSONObject(i).getString("author_full_name");
-                imageUrl[i] = images.getJSONObject(i).getString("thumbnail");
+                imageUrl[i] = images.getJSONObject(i).getString("preview_large");
                 pictureNames[i] = images.getJSONObject(i).getString("name");
                 ids[i] = images.getJSONObject(i).getString("uid");
             } catch (JSONException e) {
@@ -138,7 +140,8 @@ public class MainActivity extends ListActivity {
     }
 
     public void heartClick(View heartView){
-
+        /**
+         * Version 1
         if (heartView.getTag().equals("empty")){
 
             if(mPlayer != null) {
@@ -157,6 +160,25 @@ public class MainActivity extends ListActivity {
             heartButton.setImageResource(R.drawable.heart_not_selected);
             heartButton.setTag("empty");
         }
+        */
+
+        //Version 2
+        if(mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.release();
+        }
+        mPlayer = MediaPlayer.create(this, R.raw.buttonclick);
+        mPlayer.start();
+
+        View parentView = (View) heartView.getParent();
+        TextView counterView = (TextView) parentView.findViewById(R.id.likeCounter);
+
+        int currentCount = Integer.parseInt((String) counterView.getText());
+        counterView.setText(String.valueOf(currentCount + 1));
+
+        YourPreference yourPreference = YourPreference.getInstance(this);
+        yourPreference.saveData(String.valueOf(heartView.getTag()),currentCount + 1);
+
     }
 
 
