@@ -143,6 +143,10 @@ public class MainActivity extends ListActivity {
 
     }
 
+    /**
+     * Incrémente le compteur de like et enregistre les changements dans la base de donnée.
+     * @param heartView
+     */
     public void heartClick(View heartView){
         /**
          * Version 1
