@@ -54,8 +54,8 @@ public class MyListAdapter extends ArrayAdapter<String> {
             textViewArtist.setText("Artist: " + artistNames[position]);
             heartButton.setImageResource(R.drawable.heart_selected);
             heartButton.setTag(ids[position]);
-            YourPreference yourPreference = YourPreference.getInstance(this.context);
-            int likecount = yourPreference.getData(ids[position]);
+            DatabaseManager databaseManager = DatabaseManager.getInstance(this.context);
+            int likecount = databaseManager.getData(ids[position]);
             likeCounter.setText(String.valueOf(likecount));
 
 

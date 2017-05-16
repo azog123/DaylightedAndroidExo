@@ -15,13 +15,13 @@ import java.net.CookieManager;
 /**
  * Created by androidtutorialpoint on 5/11/16.
  */
-public class AppSingleton {
-    private static AppSingleton mAppSingletonInstance;
+public class RequestManager {
+    private static RequestManager mAppSingletonInstance;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static Context mContext;
 
-    private AppSingleton(Context context) {
+    private RequestManager(Context context) {
         mContext = context;
         mRequestQueue = getRequestQueue();
 
@@ -42,9 +42,9 @@ public class AppSingleton {
                 });
     }
 
-    public static synchronized AppSingleton getInstance(Context context) {
+    public static synchronized RequestManager getInstance(Context context) {
         if (mAppSingletonInstance == null) {
-            mAppSingletonInstance = new AppSingleton(context);
+            mAppSingletonInstance = new RequestManager(context);
         }
         return mAppSingletonInstance;
     }

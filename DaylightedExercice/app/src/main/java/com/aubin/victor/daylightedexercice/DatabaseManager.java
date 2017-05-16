@@ -3,19 +3,19 @@ package com.aubin.victor.daylightedexercice;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class YourPreference {
-    private static YourPreference yourPreference;
+public class DatabaseManager {
+    private static DatabaseManager databaseManager;
     private SharedPreferences sharedPreferences;
 
-    public static YourPreference getInstance(Context context) {
-        if (yourPreference == null) {
-            yourPreference = new YourPreference(context);
+    public static DatabaseManager getInstance(Context context) {
+        if (databaseManager == null) {
+            databaseManager = new DatabaseManager(context);
         }
-        return yourPreference;
+        return databaseManager;
     }
 
 
-    private YourPreference(Context context) {
+    private DatabaseManager(Context context) {
         sharedPreferences = context.getSharedPreferences("LikeCounters",Context.MODE_PRIVATE);
     }
 

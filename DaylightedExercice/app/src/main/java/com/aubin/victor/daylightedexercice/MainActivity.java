@@ -2,13 +2,10 @@ package com.aubin.victor.daylightedexercice;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +17,9 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+/**
+ * Classe principale de l'appli. Cette classe utilise toutes les autres classes pour les différentes fonctionnalités.
+ */
 public class MainActivity extends ListActivity {
 
     //les urls utilisés
@@ -33,6 +33,10 @@ public class MainActivity extends ListActivity {
     //le player
     private MediaPlayer mPlayer;
 
+    /**
+     * Classe appelée eau démarrage
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +139,7 @@ public class MainActivity extends ListActivity {
             }
         });
         // Adding JsonObject request to request queue
-        AppSingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
+        RequestManager.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayReq, REQUEST_TAG);
 
     }
 
@@ -176,8 +180,8 @@ public class MainActivity extends ListActivity {
         int currentCount = Integer.parseInt((String) counterView.getText());
         counterView.setText(String.valueOf(currentCount + 1));
 
-        YourPreference yourPreference = YourPreference.getInstance(this);
-        yourPreference.saveData(String.valueOf(heartView.getTag()),currentCount + 1);
+        DatabaseManager databaseManager = DatabaseManager.getInstance(this);
+        databaseManager.saveData(String.valueOf(heartView.getTag()),currentCount + 1);
 
     }
 
